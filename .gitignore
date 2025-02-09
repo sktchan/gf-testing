@@ -3,6 +3,7 @@ anaconda3/
 
 # takes too long for git to commit to repo
 genecorpus_30M/
+Geneformer/
 
 # testing files, etc.
 __pycache__/
