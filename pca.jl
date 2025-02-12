@@ -32,7 +32,7 @@ function pad_sequences(sequences, max_len, pad_value=-1)
 end
 
 # converting input_ids column to a matrix of 2048x43501 (rows = genes, columns = cells)
-X = reduce(hcat, pad_sequences(df_labeled.input_ids, n_features))'
+X = reduce(hcat, pad_sequences(df_labeled.input_ids, n_features))
 
 pca_model = fit(PCA, X; maxoutdim=2) 
 
