@@ -6,6 +6,8 @@ using Arrow, DataFrames, MultivariateStats, Statistics, LinearAlgebra, UMAP, Spa
 dataset_labeled = Arrow.Table("/home/muninn/scratch/chans/test_serena/Geneformer/examples/250209142055/tf_dosage_sens_test_labeled.dataset/data-00000-of-00001.arrow")
 df_labeled = DataFrame(dataset_labeled)
 
+train_dataset = Arrow.Table("/home/muninn/scratch/chans/test_serena/Geneformer/examples/250211205401/250211_geneformer_geneClassifier_tf_dosage_sens_test/tf_dosage_sens_test_test_gene_labeled_ksplit1.dataset/data-00000-of-00001.arrow")
+df_train = DataFrame(train_dataset)
 
 ### reformatting matrix
 
@@ -41,12 +43,12 @@ end
 # converting input_ids column to a matrix of 2048x43501 (rows = genes, columns = cells)
 X = reduce(hcat, pad_sequences(df_labeled.input_ids, n_features))'
 
-pca_model = fit(PCA, X; maxoutdim=2) ### doesn't work
+pca_model = fit(PCA, X; maxoutdim=2) 
 
 
 ### umap
 
 # converting to sparse matrix?
-sparse_X = sparse(X)
 
-embedding = umap(sparse_X, 2) ### also doesn't work... 
+sparse_X = sparse(X)
+embedding = umap(sparse_X, 2) 
