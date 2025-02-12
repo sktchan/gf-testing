@@ -17,15 +17,6 @@ labels_filtered = []
 for row in eachrow(df_labeled)
     input_ids = row.input_ids
     labels = row.labels
-
-    ## this removes all -100 values from the labels and accordingly with the input_ids. 
-    # valid_indices = labels .!= -100 # removing -100 values
-    # filtered_input_ids = input_ids[valid_indices]
-    # filtered_labels = labels[valid_indices]
-
-    # append!(features, filtered_input_ids)
-    # append!(labels_filtered, filtered_labels)
-
     append!(features, input_ids)
     append!(labels_filtered, labels)
 end
