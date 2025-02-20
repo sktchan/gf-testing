@@ -9,6 +9,9 @@ df_labeled = DataFrame(dataset_labeled)
 train_dataset = Arrow.Table("/home/muninn/scratch/chans/test_serena/Geneformer/examples/250211205401/250211_geneformer_geneClassifier_tf_dosage_sens_test/tf_dosage_sens_test_test_gene_labeled_ksplit1.dataset/data-00000-of-00001.arrow")
 df_train = DataFrame(train_dataset)
 
+full_dataset = Arrow.Table("/home/muninn/scratch/chans/test_serena/genecorpus_30M/genecorpus_30_2048.dataset/dataset.arrow")
+df_full = DataFrame(full_dataset)
+
 ### reformatting matrix
 
 features = []
