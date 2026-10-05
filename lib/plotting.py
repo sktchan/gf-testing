@@ -13,7 +13,7 @@ STYLE = {  # colors as in the paper's Fig. 2a
 
 
 def save_curves(curves, path):
-    # ROC curves as long csv for 04_plots.jl
+    # ROC curves as long csv for plots.jl
     import pandas as pd
     pd.DataFrame([{"model": n, "auc": m, "sd": sd, "fpr": f, "tpr": t}
                   for n, m, sd, tpr in curves for f, t in zip(MEAN_FPR, tpr)]).to_csv(path, index=False)

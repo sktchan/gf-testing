@@ -47,7 +47,7 @@ def published_geneformer():
 
 
 def save_published(path=RESULTS / "geneformer_published.csv"):
-    # published geneformer fold AUCs for 04_plots.jl
+    # published geneformer fold AUCs for plots.jl
     import pandas as pd
     gf = published_geneformer()
     pd.DataFrame({"fold": range(len(gf["folds"])), "auc": gf["folds"],

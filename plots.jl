@@ -1,4 +1,4 @@
-# 04: figures
+# figures
 
 using Pkg
 Pkg.activate(joinpath(@__DIR__, "../transformers", Sys.ARCH == :aarch64 ? "aarch64" : "x86_64"))
@@ -19,22 +19,22 @@ end
 model_name(m) = get(Dict("Detection count" => "Count", "MLP" => "MLP-r"), m, m)
 load_roc(f) = [(name=model_name(k.model), auc=first(g.auc), sd=first(g.sd), fpr=g.fpr, tpr=g.tpr)
                for (k, g) in pairs(groupby(read_csv(f), :model, sort=false))]
-roc1 = load_roc("$res_dir/fig1_baseline_setup_roc.csv")    # 01
-roc2 = load_roc("$res_dir/fig2_geneformer_setup_roc.csv")   # 02
+roc1 = load_roc("$res_dir/baseline_setup_roc.csv")    # baseline setup
+roc2 = load_roc("$res_dir/geneformer_setup_roc.csv")   # geneformer setup
 
 # fold AUCs
 read_folds(f, auc, wt) = select(read_csv("$res_dir/$f"), :model => ByRow(model_name) => :model, :fold, auc => :auc, wt => :wt)
 fold_summary(F) = Dict(k.model => cv_metrics(g.auc, g.wt) for (k, g) in pairs(groupby(F, :model)))
-fold_baseline = read_folds("01_baseline_setup_per_fold.csv", :auc_gene, :tpr_wt)
-fold_gf = read_folds("02_geneformer_setup_per_fold.csv", :auc_occurrence, :tpr_wt_occurrence)
+fold_baseline = read_folds("baseline_setup_per_fold.csv", :auc_gene, :tpr_wt)
+fold_gf = read_folds("geneformer_setup_per_fold.csv", :auc_occurrence, :tpr_wt_occurrence)
 summ_baseline = fold_summary(fold_baseline)
 summ_gf = fold_summary(fold_gf)
 pub = read_csv("$res_dir/geneformer_published.csv")
 summ_gf[gf_name] = (pub.weighted_auc[1], pub.weighted_sd[1])
 fold_gf = vcat(DataFrame(model=gf_name, fold=pub.fold, auc=pub.auc, wt=missing), fold_gf)
 
-# 03
-s03 = vcat([read_csv("$res_dir/03_2026_setup/seed$s.csv") for s in (42, 0, 1)]...)
+# 2026 setup
+s03 = vcat([read_csv("$res_dir/2026_setup/seed$s.csv") for s in (42, 0, 1)]...)
 s03.model = model_name.(s03.model)
 pub26 = TOML.parsefile("config/published.toml")["chen_2026"]
 
@@ -45,12 +45,12 @@ name(m) = replace(m, " (published)" => "")   # display name: data keeps "(publis
 short(m) = name(m)
 
 
-# main: ROC of both setups (a: 01, b: 02), AUC of every fold behind the ± (c, d)
+# main: ROC of both setups (a: baseline, b: geneformer), AUC of every fold behind the ± (c, d)
 begin
     fig = Figure(size=(1500, 1050))
     Label(fig[0, 1:2], "Dosage-sensitive vs -insensitive TFs (2023)", font=:bold, tellwidth=false)
 
-    # a: 01, baseline setup
+    # a: baseline setup
     ax_a = Axis(fig[1, 1],
         xlabel="False positive rate",
         ylabel="True positive rate",
@@ -62,7 +62,7 @@ begin
     axislegend(ax_a, position=:rb, "AUC ± SD by 5-fold cross-validation\nBaselines: balanced, eval. per gene\nGeneformer: unbalanced, eval. per occurrence")
     Label(fig[1, 1, TopLeft()], "a", font=:bold, padding=(0, 10, 10, 0), halign=:right)
 
-    # b: 02, geneformer's setup
+    # b: geneformer's setup
     ax_b = Axis(fig[1, 2],
         xlabel="False positive rate",
         ylabel="True positive rate",
@@ -74,7 +74,7 @@ begin
     axislegend(ax_b, position=:rb, "AUC ± SD by 5-fold cross-validation\nUnbalanced, eval. per gene occurrence")
     Label(fig[1, 2, TopLeft()], "b", font=:bold, padding=(0, 10, 10, 0), halign=:right)
 
-    # c: 01 folds. dots: folds; tick ± error bar: fold-weighted AUC ± SD
+    # c: baseline folds. dots: folds; tick ± error bar: fold-weighted AUC ± SD
     models = ["MLP-r", "SVM-r", "RF-r", "LR-r"]
     ax_c = Axis(fig[2, 1],
         xticks=(eachindex(models), short.(models)),
@@ -89,7 +89,7 @@ begin
     end
     Label(fig[2, 1, TopLeft()], "c", font=:bold, padding=(0, 10, 10, 0), halign=:right)
 
-    # d: 02 folds
+    # d: geneformer folds
     models = [gf_name, "MLP-r", "SVM-r", "RF-r", "LR-r", "Count"]
     ax_d = Axis(fig[2, 2],
         xticks=(eachindex(models), short.(models)),
@@ -111,7 +111,7 @@ begin
 end
 save("$fig_dir/fig_main.png", fig, px_per_unit=2)
 
-# 01: ROC, baseline setup
+# ROC, baseline setup
 begin
     fig1 = Figure(size=(750, 550))
     ax = Axis(fig1[1, 1],
@@ -125,9 +125,9 @@ begin
     axislegend(ax, position=:rb, "AUC ± SD by 5-fold cross-validation\nBaselines: balanced, eval. per gene\nGeneformer: unbalanced, eval. per occurrence")
     display(fig1)
 end
-save("$fig_dir/01_baseline_setup.png", fig1, px_per_unit=2)
+save("$fig_dir/baseline_setup.png", fig1, px_per_unit=2)
 
-# 02: ROC, geneformer's setup
+# ROC, geneformer's setup
 begin
     fig2 = Figure(size=(750, 550))
     ax = Axis(fig2[1, 1],
@@ -141,9 +141,9 @@ begin
     axislegend(ax, position=:rb, "AUC ± SD by 5-fold cross-validation\nUnbalanced, eval. per gene occurrence")
     display(fig2)
 end
-save("$fig_dir/02_geneformer_setup.png", fig2, px_per_unit=2)
+save("$fig_dir/geneformer_setup.png", fig2, px_per_unit=2)
 
-# 03: boxplots over 3 seeds; macro F1 (a) and AUC (b) (one 80/20 split, 3 seeds per model)
+# 2026 setup: boxplots over 3 seeds; macro F1 (a) and AUC (b) (one 80/20 split, 3 seeds per model)
 begin
     fig3 = Figure(size=(1100, 520))
     Label(fig3[0, 1:2], "Dosage-sensitive vs -insensitive TFs (2026)",
@@ -183,4 +183,4 @@ begin
 
     display(fig3)
 end
-save("$fig_dir/03_2026_setup.png", fig3, px_per_unit=2)
+save("$fig_dir/2026_setup.png", fig3, px_per_unit=2)

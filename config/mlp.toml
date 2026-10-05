@@ -1,4 +1,4 @@
-# fixed MLP for 01-03; same config every fold; Glorot init
+# fixed MLP for all three setups; same config every fold; Glorot init
 # config 0 of archive/oct2026/candidate_configs.json; modelling.jl-based
 
 seed = 42                 # every fold; Geneformer's fine-tuning default

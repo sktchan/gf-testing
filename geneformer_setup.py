@@ -1,4 +1,4 @@
-# 02: fixed MLP and baselines, scored exactly like Geneformer (2023 paper)
+# fixed MLP and baselines, scored exactly like Geneformer (2023 paper)
 # Theodoris et al. 2023, Nature 618:616-624, doi:10.1038/s41586-023-06139-9
 # via huggingface.co/ctheodoris/Geneformer examples/gene_classification.ipynb
 
@@ -85,7 +85,7 @@ def main():
         print(f"fold {k}: MLP config {cfg}, per-occurrence AUC {rows[-5]['auc_occurrence']:.3f}", flush=True)
 
     df = pd.DataFrame(rows)
-    df.to_csv(RESULTS / "02_geneformer_setup_per_fold.csv", index=False)
+    df.to_csv(RESULTS / "geneformer_setup_per_fold.csv", index=False)
     gf = published_geneformer()
     save_published()
     print(f"\ngeneformer (published): {gf['weighted_auc']:.3f} ± {gf['weighted_sd']:.3f} per occurrence "
@@ -104,10 +104,10 @@ def main():
                         "p_wilcoxon_vs_geneformer": wilcoxon(a, gf["folds"]).pvalue})
         curves.append((name, *occ))
     summary = pd.DataFrame(summary)
-    summary.to_csv(RESULTS / "02_geneformer_setup_summary.csv", index=False, float_format="%.4f")
+    summary.to_csv(RESULTS / "geneformer_setup_summary.csv", index=False, float_format="%.4f")
     print(summary.to_string(index=False, float_format="%.3f"))
 
-    plot_roc(curves, "Dosage sensitive vs. insensitive TFs", FIGS / "fig2_geneformer_setup",
+    plot_roc(curves, "Dosage sensitive vs. insensitive TFs", FIGS / "geneformer_setup",
              "Geneformer's evaluation: 490 genes,\nits folds and cells, per gene occurrence")
 
 

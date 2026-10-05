@@ -1,4 +1,4 @@
-# 01: fixed MLP vs RF/LR/SVM, baseline setup (2023 paper)
+# fixed MLP vs RF/LR/SVM, baseline setup (2023 paper)
 # Theodoris et al. 2023, Nature 618:616-624, doi:10.1038/s41586-023-06139-9
 
 import pickle
@@ -74,7 +74,7 @@ def main():
                          "tpr_wt": wt})
         # print(f"fold {k}: MLP config {cfg}, AUC {per['MLP'][0][-1]:.3f}", flush=True)
         print(f"fold {k}: MLP config {cfg}, AUC {per['MLP-r'][0][-1]:.3f}", flush=True)
-    pd.DataFrame(rows).to_csv(RESULTS / "01_baseline_setup_per_fold.csv", index=False)
+    pd.DataFrame(rows).to_csv(RESULTS / "baseline_setup_per_fold.csv", index=False)
 
     # curves = [(name, *cv_metrics(*per[name])) for name in ["MLP", "SVM-r", "RF-r", "LR-r"]]
     curves = [(name, *cv_metrics(*per[name])) for name in ["MLP-r", "SVM-r", "RF-r", "LR-r"]]
@@ -91,8 +91,8 @@ def main():
 
     gf = published_geneformer()
     plot_roc([("Geneformer (published)", gf["weighted_auc"], gf["weighted_sd"], gf["mean_tpr"])] + curves,
-             # "MLP in Geneformer's baseline setup", FIGS / "fig1_baseline_setup",
-             "MLP-r in Geneformer's baseline setup", FIGS / "fig1_baseline_setup",
+             # "MLP in Geneformer's baseline setup", FIGS / "baseline_setup",
+             "MLP-r in Geneformer's baseline setup", FIGS / "baseline_setup",
              # "MLP + baselines: 122/122 genes, per gene\nGeneformer: 490 genes, per occurrence")
              "MLP-r + baselines: 122/122 genes, per gene\nGeneformer: 490 genes, per occurrence")
 

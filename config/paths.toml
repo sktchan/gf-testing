@@ -7,8 +7,8 @@ cells_50k = "Genecorpus-30M/example_input_files/gene_classification/dosage_sensi
 gf_notebook = "Geneformer/examples/gene_classification.ipynb"   # holds published 0.914 run
 
 data = "data"
-baseline_setup = "data/baseline_setup.npz"      # written by 01
-gf_setup = "data/geneformer_setup"            # written by 02
+baseline_setup = "data/baseline_setup.npz"      # written by baseline_setup.py
+gf_setup = "data/geneformer_setup"            # written by geneformer_setup.py
 
 results = "results"
 figures = "results/figures"

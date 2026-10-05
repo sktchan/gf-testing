@@ -1,4 +1,4 @@
-# 03: Chen 2026 style: one 80/20 split, 3 seeds
+# Chen 2026 style: one 80/20 split, 3 seeds
 # Chen et al. 2026, Nat Comput Sci 6:450-463, doi:10.1038/s43588-026-00972-4
 
 import argparse
@@ -16,13 +16,13 @@ from lib.config import GF_SETUP, MLP_CONFIG, PUBLISHED_2026, RESULTS
 from lib.mlp import mlp
 
 SEEDS = [42, 0, 1]   # 42 = Geneformer's; paper doesn't list its seeds
-OUT = RESULTS / "03_2026_setup"
+OUT = RESULTS / "2026_setup"
 
 
 def run_seed(seed):
     torch.set_num_threads(8)
     y = np.load(GF_SETUP / "genes.npz")["labels"]
-    f = np.load(GF_SETUP / "fold0.npz")   # 80/20 split = 02's fold 0
+    f = np.load(GF_SETUP / "fold0.npz")   # 80/20 split = geneformer_setup's fold 0
     tr, te, ranks, w = f["train"], f["test"], f["ranks"].astype(np.int64), f["occ_eval"][f["test"]]
 
     score, cfg = mlp(ranks.astype(np.float32) / 2048.0, y, tr, te, seed=seed), MLP_CONFIG["id"]
