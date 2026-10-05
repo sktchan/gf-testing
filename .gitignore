@@ -1,12 +1,12 @@
-# anaconda env
-anaconda3/
-
-# takes too long for git to commit to repo
-genecorpus_30M/
+Genecorpus-30M/
 Geneformer/
-
-# testing files, etc.
+prev_testing/
+data/
+results/
+archive/
+*.png
+log.txt
+*.sbatch
+.venv/
 __pycache__/
-testing/
-testing_model.py
-cross_val/
+.vscode/

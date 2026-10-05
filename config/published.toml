@@ -1,0 +1,25 @@
+# published reference numbers
+
+# 2023 paper Fig. 2a: [AUC, weighted SD]; figure says SE
+[fig2a_2023]
+Geneformer = [0.91, 0.02]
+SVM-r = [0.75, 0.08]
+RF-r = [0.72, 0.06]
+LR-r = [0.65, 0.05]
+
+# Chen 2026 source data Fig. 2b, disease_genes, per seed
+[chen_2026."Geneformer GF-10M (published)"]
+macro_f1 = [0.8304, 0.8352, 0.8827]
+auc = [0.8757, 0.8861, 0.9069]
+
+[chen_2026."RF (published)"]
+macro_f1 = [0.6702, 0.6702, 0.6444]
+auc = [0.8176, 0.7969, 0.7846]
+
+[chen_2026."LR (published)"]
+macro_f1 = [0.6250, 0.6250, 0.6250]
+auc = [0.8085, 0.8085, 0.8085]
+
+[chen_2026."SVM (published)"]
+macro_f1 = [0.5313, 0.5313, 0.5313]
+auc = [0.7755, 0.7755, 0.7755]

@@ -1,0 +1,18 @@
+# fixed MLP for 01-03; same config every fold; Glorot init
+# config 0 of archive/oct2026/candidate_configs.json; modelling.jl-based
+
+seed = 42                 # every fold; Geneformer's fine-tuning default
+
+[mlp]
+id = 0
+input = "gene ranks across 10k cells / 2048, no PCA"
+hidden = [256, 128]       # Linear -> ReLU -> BatchNorm per layer
+batchnorm = true
+dropout = 0.0
+optimizer = "AdamW"       # weight_decay 0, so plain Adam
+lr = 0.005
+weight_decay = 0.0
+batch_size = 128
+epochs = 60               # fixed, no early stopping
+loss = "BCEWithLogitsLoss"
+init = "xavier_uniform weights, zero biases"

@@ -1,0 +1,14 @@
+# paths relative to the geneformer/ project root
+
+full_corpus = "Genecorpus-30M/genecorpus_30M_2048.dataset"
+token_dict = "Genecorpus-30M/token_dictionary.pkl"      # gc-30M dictionary
+tf_pickle = "Genecorpus-30M/example_input_files/gene_classification/dosage_sensitive_tfs/dosage_sensitivity_TFs.pickle"
+cells_50k = "Genecorpus-30M/example_input_files/gene_classification/dosage_sensitive_tfs/gc-30M_sample50k.dataset"
+gf_notebook = "Geneformer/examples/gene_classification.ipynb"   # holds published 0.914 run
+
+data = "data"
+baseline_setup = "data/baseline_setup.npz"      # written by 01
+gf_setup = "data/geneformer_setup"            # written by 02
+
+results = "results"
+figures = "results/figures"
